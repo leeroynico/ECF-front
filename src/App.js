@@ -1,12 +1,13 @@
 import logo from "./logo.svg";
 // import "./App.css";
 import Home from "./components/Home";
+import Login from "./components/login/LoginView";
 
 function App() {
   return (
     <div className="App">
-      <Home />
-      <p>bonjour react</p>
+      {/* <Home /> */}
+      <Login />
     </div>
   );
 }
