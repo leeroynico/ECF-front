@@ -17,12 +17,7 @@ function Login() {
         <Typography variant="h4" component="h2">
           TD temp
         </Typography>
-        <TextField
-          id="loginId"
-          label="identifiant"
-          variant="outlined"
-          onKeyUp={alert("yo")}
-        />
+        <TextField id="loginId" label="identifiant" variant="outlined" />
         <TextField id="loginPassword" label="mot de passe" variant="outlined" />
         <LoginData />
       </Grid>
