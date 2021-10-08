@@ -3,13 +3,15 @@ import logo from "./logo.svg";
 import Home from "./components/Home";
 import Login from "./components/login/LoginView";
 import Charts from "./components/charts/Charts";
+import CsvImport from "./components/csv/CsvImport";
 
 function App() {
   return (
     <div className="App">
-      {/* <Home /> */}
+      <CsvImport />
+      {/* <Home /> 
       <Login />
-      <Charts />
+      <Charts />*/}
     </div>
   );
 }
