@@ -1,10 +1,13 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Chart,
   Series,
   ArgumentAxis,
   CommonSeriesSettings,
   CommonAxisSettings,
+  Crosshair,
+  HorizontalLine,
   Grid,
   Export,
   Legend,
@@ -14,60 +17,67 @@ import {
   Format,
 } from "devextreme-react/chart";
 
-const sharingStatisticsInfo = [
-  {
-    year: 1997,
-    smp: 263,
-    mmp: 226,
-    cnstl: 10,
-    cluster: 1,
-  },
-  {
-    year: 1999,
-    smp: 169,
-    mmp: 256,
-    cnstl: 66,
-    cluster: 7,
-  },
-  {
-    year: 2001,
-    smp: 57,
-    mmp: 257,
-    cnstl: 143,
-    cluster: 43,
-  },
-  {
-    year: 2003,
-    smp: 0,
-    mmp: 163,
-    cnstl: 127,
-    cluster: 210,
-  },
-];
+const axios = require("axios");
+const urlApi = "https://api-projet-ecf.herokuapp.com/api/resultats";
 
 function Charts() {
+  const [datas, setDatas] = useState([]);
+  const getDatas = () => {
+    axios
+      .get(urlApi)
+      .then(function (response) {
+        if (response.status != 200) {
+          alert("problème de chargement de data");
+        }
+        console.log(response.data["hydra:member"][5]);
+        setDatas(response.data["hydra:member"][5].resultatTemperature[0]);
+      })
+      .catch(function (error) {
+        console.log("erreurs api - axios : " + error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+  useEffect(() => {
+    getDatas();
+  }, []);
+  console.log(datas);
   return (
     <>
-      <Chart
-        palette="Violet"
-        dataSource={sharingStatisticsInfo}
-        title="Architecture Share Over Time (Count)"
-      >
-        <CommonSeriesSettings argumentField="year" type={"line"} />
-        <CommonAxisSettings>
-          <Grid visible={true} />
-        </CommonAxisSettings>
-        <Series key={"year"} valueField={"smp"} />
-        <Margin bottom={20} />
-        <ArgumentAxis allowDecimals={false} axisDivisionFactor={60}>
-          <Label>
-            <Format type="decimal" />
-          </Label>
-        </ArgumentAxis>
-        <Legend verticalAlignment="top" horizontalAlignment="right" />
-        <Export enabled={true} />
-        <Tooltip enabled={true} />
-      </Chart>
+      {datas.length === 0 ? (
+        "pas de datas pour ce jour"
+      ) : (
+        <Chart
+          palette="Violet"
+          dataSource={datas}
+          title="température de la chambre froide"
+        >
+          <CommonSeriesSettings argumentField="time" type="stackedspline" />
+          <CommonAxisSettings>
+            <Grid visible={false} />
+          </CommonAxisSettings>
+          <Series key="time" valueField="data" name="T°" />
+          <Margin bottom={20} />
+          <ArgumentAxis allowDecimals={false} axisDivisionFactor={40}>
+            <Label>
+              <Format type="decimal" />
+            </Label>
+          </ArgumentAxis>
+          <Crosshair enabled={true}>
+            <HorizontalLine visible={true} />
+            <Label visible={true} />
+          </Crosshair>
+          <Legend
+            verticalAlignment="bottom"
+            horizontalAlignment="center"
+            itemTextPosition="bottom"
+            visible="false"
+          />
+          <Export enabled={true} />
+          <Tooltip enabled={true} />
+        </Chart>
+      )}
     </>
   );
 }

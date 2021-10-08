@@ -10,8 +10,8 @@ function App() {
     <div className="App">
       <CsvImport />
       {/* <Home /> 
-      <Login />
-      <Charts />*/}
+      <Login />*/}
+      <Charts />
     </div>
   );
 }

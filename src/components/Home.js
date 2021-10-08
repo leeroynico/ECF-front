@@ -8,7 +8,7 @@ function home() {
     .get(urlApi)
     .then(function (response) {
       if (response.status != 200) {
-        alert("roblème de cargement de data");
+        alert("problème de cargement de data");
       }
       console.log(response.data);
     })
