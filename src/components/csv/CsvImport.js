@@ -15,7 +15,7 @@ function CsvImport() {
       url: urlApi,
       data: {
         date: "2021-10-08T19:56:24.048Z",
-        // validation: true,
+        validation: true,
         commentaire: "",
         resultatTemperature: [datas],
         resultatHygrometrie: ["string from react oh yeah "],

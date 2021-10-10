@@ -1,18 +1,43 @@
 import logo from "./logo.svg";
 // import "./App.css";
+
 import Home from "./components/Home";
 import Login from "./components/login/LoginView";
 import Charts from "./components/charts/Charts";
 import CsvImport from "./components/csv/CsvImport";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Grid, Typography } from "@mui/material";
+import Logo from "./images/logo.png";
+import NotFound from "./components/pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div className="App">
-      <CsvImport />
-      {/* <Home /> 
-      <Login />*/}
-      <Charts />
-    </div>
+    <>
+      <Grid container spacing={1} sx={{ margin: 1 }}>
+        <Grid item xs={2}>
+          <img src={Logo} alt="logo" className="logoImg" />
+        </Grid>
+        <Grid item xs={8}>
+          <Typography variant="overline" component="h2" align="right">
+            Bonjour et bienvenue chez TD Temp
+          </Typography>
+        </Grid>
+      </Grid>
+      <BrowserRouter>
+        <Switch>
+          <ProtectedRoute path="/Home" exact component={Home} />
+          <Route path="/" exact component={Login} />
+          <Route path="/login" component={Login} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+
+      {/*  <CsvImport />
+        <Home /> 
+        <Login />
+        <Charts />*/}
+    </>
   );
 }
 

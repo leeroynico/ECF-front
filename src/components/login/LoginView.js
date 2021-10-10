@@ -1,26 +1,69 @@
 import React from "react";
 import "./loginStyle.css";
-import { TextField, Grid, Typography } from "@mui/material";
+import {
+  TextField,
+  Grid,
+  Typography,
+  Button,
+  Paper,
+  Divider,
+} from "@mui/material";
 import LoginData from "./LoginData";
 
 function Login() {
+  const connect = (e) => {
+    e.preventDefault();
+    localStorage.setItem("role", "admin");
+    window.location.pathname = "/home";
+    // localStorage.clear();
+  };
+  //TODO => changer couleur des inputs de Mui pour coller à la charte
   return (
     <>
-      <Grid
-        sx={{ marginTop: 5 }}
-        container
-        spacing={2}
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
+      <Paper
+        sx={{
+          marginTop: 10,
+          mx: 2,
+          p: 3,
+          backgroundColor: "#BABFD180",
+          color: "#DA5552",
+        }}
       >
-        <Typography variant="h4" component="h2">
-          TD temp
-        </Typography>
-        <TextField id="loginId" label="identifiant" variant="outlined" />
-        <TextField id="loginPassword" label="mot de passe" variant="outlined" />
-        <LoginData />
-      </Grid>
+        <Grid
+          container
+          spacing={4}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <Typography>
+              Entrez votre identifiant et votre mot de passe{" "}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <TextField id="loginId" label="identifiant" variant="outlined" />
+          </Grid>
+
+          <Grid item>
+            <TextField
+              id="loginPassword"
+              label="mot de passe"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={connect}
+              sx={{ backgroundColor: "#DF7373" }}
+            >
+              se connecter
+            </Button>
+          </Grid>
+          <LoginData />
+        </Grid>
+      </Paper>
     </>
   );
 }
