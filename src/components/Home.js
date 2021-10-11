@@ -1,10 +1,14 @@
 import React from "react";
 import Charts from "./charts/Charts";
 import CsvImport from "./csv/CsvImport";
+import CreateOfficine from "./special-features/CreateOfficine";
+import ModifyPassword from "./special-features/ModifyPassword";
+import { Grid } from "@mui/material";
 
 const axios = require("axios");
 const urlApi = "https://api-projet-ecf.herokuapp.com/api/resultats";
-console.log(localStorage);
+let role = localStorage.getItem("role");
+
 function home() {
   axios
     .get(urlApi)
@@ -20,11 +24,13 @@ function home() {
     .then(function () {
       // always executed
     });
-
+  // console.log(localStorage.getItem("role"));
   return (
     <div>
       <Charts />
       <CsvImport />
+      <CreateOfficine />
+      <ModifyPassword />
     </div>
   );
 }

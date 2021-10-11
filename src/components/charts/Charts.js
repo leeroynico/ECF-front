@@ -56,7 +56,7 @@ function Charts() {
               id="selec_chambre_froide_id"
               value="chambre"
               label="chambre_froide"
-              onChange={""}
+              // onChange={""}
             >
               <MenuItem value={10}>chambre 1 </MenuItem>
               <MenuItem value={20}>chambre 2 </MenuItem>

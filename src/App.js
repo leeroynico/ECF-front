@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 // import "./App.css";
 
 import Home from "./components/Home";
-import Login from "./components/login/LoginView";
+import Login from "./components/login/Login";
 import Charts from "./components/charts/Charts";
 import CsvImport from "./components/csv/CsvImport";
 import { BrowserRouter, Route, Switch } from "react-router-dom";

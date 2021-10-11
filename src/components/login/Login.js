@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import LoginView from "./LoginView";
 const axios = require("axios");
 const urlApiUtilisateurs =
   "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
 
-function LoginData() {
+function Login() {
   const [users, setUsers] = useState([]);
   const getUser = () => {
     axios
@@ -21,7 +22,11 @@ function LoginData() {
   useEffect(() => {
     getUser();
   }, []);
-  console.log(users);
-  return <div></div>;
+
+  return (
+    <>
+      <LoginView users={users} />
+    </>
+  );
 }
-export default LoginData;
+export default Login;

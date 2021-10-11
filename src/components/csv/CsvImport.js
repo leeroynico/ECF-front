@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { CSVReader } from "react-papaparse";
-const buttonRef = React.createRef();
+import { Button, Typography } from "@mui/material";
+
 const axios = require("axios");
 const urlApi = "https://api-projet-ecf.herokuapp.com/api/resultats";
 
@@ -24,7 +25,6 @@ function CsvImport() {
     });
   };
   const handleOnDrop = (data) => {
-    // console.log(data);
     setDatas(
       data.slice(1).map((item) => ({
         time: item.data[0].slice(11, 16),
@@ -42,11 +42,12 @@ function CsvImport() {
     //console.log(data);
     setDatas({});
   };
-  console.log(datas);
-  console.log(date);
+
   return (
     <>
-      <h5>Click and Drag Upload</h5>
+      <Typography variant="h4" alihgn="center">
+        Importer les datas
+      </Typography>
       <CSVReader
         onDrop={handleOnDrop}
         onError={handleOnError}
@@ -55,14 +56,15 @@ function CsvImport() {
       >
         <span>Drop CSV file here or click to upload.</span>
       </CSVReader>
-      <div></div>
-      <button
+      <Button
+        variant="contained"
         onClick={() => {
           postResultatsToApi();
         }}
+        sx={{ backgroundColor: "#DF7373" }}
       >
-        envoyez les résultats
-      </button>
+        envoyer les résultats
+      </Button>
     </>
   );
 }
