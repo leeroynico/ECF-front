@@ -1,19 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
+const urlApiUtilisateurs =
+  "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
 
 function LoginData() {
   const [users, setUsers] = useState([]);
   const getUser = () => {
     axios
-      .get(urlApi)
+      .get(urlApiUtilisateurs)
       .then(function (response) {
-        if (response.status != 200) {
-          alert("roblème de cargement de data");
-        }
         setUsers(response.data["hydra:member"]);
-        //console.log(response.data["hydra:member"]);
+        console.log(response.data["hydra:member"]);
       })
       //TODO => gestion erreurs API
       .catch(function (error) {

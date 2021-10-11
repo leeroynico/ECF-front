@@ -7,6 +7,7 @@ import Charts from "./components/charts/Charts";
 import CsvImport from "./components/csv/CsvImport";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Logo from "./images/logo.png";
 import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -22,6 +23,9 @@ function App() {
           <Typography variant="overline" component="h2" align="right">
             Bonjour et bienvenue chez TD Temp
           </Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <ExitToAppIcon />
         </Grid>
       </Grid>
       <BrowserRouter>
