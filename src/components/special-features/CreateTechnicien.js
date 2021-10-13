@@ -10,29 +10,27 @@ import {
 } from "@mui/material";
 import { getRandom } from "../FonctionsRandom";
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/officines";
+const urlApi = "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(2);
 const hash = bcrypt.hashSync(getRandom(1, 10).toString(), salt).slice(25);
 
 function CreateOfficine() {
   const center = { display: "flex", justifyContent: "center" };
-  const [adresse, setAdresse] = useState("");
-  const [ville, setVille] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [initialValue, setInitialValue] = useState("");
 
-  const create = (e) => {
+  const create = () => {
     if (adresse != "" && ville != "") {
-      setInitialValue("");
       axios({
         method: "post",
         url: urlApi,
         data: {
-          libelle: "test",
-          adresse: adresse + "-" + ville,
-          telephone: telephone,
-          password: "passordtest",
+          nom: "marie",
+          prenom: "jesus",
+          password: "string",
+          role: "technicien",
         },
       });
       window.location.reload();

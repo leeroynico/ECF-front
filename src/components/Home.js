@@ -16,7 +16,7 @@ function home() {
       if (response.status === 500) {
         alert("problème de cargement de data");
       }
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch(function (error) {
       console.log("erreurs apizd - axios : " + error);

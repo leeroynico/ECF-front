@@ -47,7 +47,12 @@ function Charts() {
 
   return (
     <>
-      <GridMui container spacing={1} justifyContent="center">
+      <GridMui
+        container
+        spacing={1}
+        justifyContent="center"
+        sx={{ marginTop: 3 }}
+      >
         <GridMui item xs={10}>
           <FormControl fullWidth>
             <InputLabel id="selec_chambre_froide">Chambre Froide</InputLabel>
