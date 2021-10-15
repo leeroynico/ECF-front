@@ -59,10 +59,17 @@ function CsvImport() {
   };
 
   const handleOnDrop = (data) => {
-    if (data.length != 97) {
-      alert("le fichier csv ne contient pas toutes les valeurs");
+    let newDate = data[1].data[0].slice(0, 10);
+    let notEmpty = dates.filter(
+      (resultat) => resultat.date.slice(0, 10) === newDate
+    );
+    if (data.length != 97 || notEmpty.length != 0) {
+      alert(
+        "le fichier csv ne contient pas toutes les valeurs ou la date a déja été enregistré"
+      );
       setAuthorizeDownload(false);
     } else {
+      setDate(newDate);
       setAuthorizeDownload(true);
       setDatas(
         data.slice(1).map((item) => ({
@@ -70,14 +77,12 @@ function CsvImport() {
           data: parseFloat(item.data[1]),
         }))
       );
-      setDate(data[1].data[0].slice(0, 10));
     }
   };
   const handleOnError = (err) => {
     console.log(err);
   };
   const handleOnRemoveFile = () => {
-    //console.log(data);
     setDatas({});
   };
   useEffect(() => {
