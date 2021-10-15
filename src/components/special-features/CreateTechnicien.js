@@ -9,8 +9,10 @@ import {
   Slider,
 } from "@mui/material";
 import { getRandom } from "../FonctionsRandom";
+import { url, axiosPost } from "../axios";
+
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
+//const urlApi = "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(2);
 const hash = bcrypt.hashSync(getRandom(1, 10).toString(), salt).slice(25);
@@ -20,19 +22,27 @@ function CreateOfficine() {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [telephone, setTelephone] = useState("");
+  const data = {
+    nom: nom,
+    prenom: prenom,
+    password: "string",
+    telephone: telephone,
+    role: "technicien",
+  };
 
   const create = () => {
     if (adresse != "" && ville != "") {
-      axios({
-        method: "post",
-        url: urlApi,
-        data: {
-          nom: "marie",
-          prenom: "jesus",
-          password: "string",
-          role: "technicien",
-        },
-      });
+      // axios({
+      //   method: "post",
+      //   url: urlApi,
+      //   data: {
+      //     nom: "marie",
+      //     prenom: "jesus",
+      //     password: "string",
+      //     role: "technicien",
+      //   },
+      // });
+      axiosPost(url.utilisateurs, data);
       window.location.reload();
     }
   };

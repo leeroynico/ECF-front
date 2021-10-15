@@ -1,22 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { InputLabel, Select, FormControl, MenuItem } from "@mui/material";
+import { url } from "../axios";
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/officines";
-const getOfficines = () => {
-  axios
-    .get(urlApi)
-    .then(function (response) {
-      if (response.status === 500) {
-        alert("problème de cargement de data");
-      }
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log("erreurs api - officines : " + error);
-    });
-};
 
-function SelectOfficine() {
-  return <div></div>;
+function SelectOfficine(props) {
+  const [officines, setOfficines] = useState([]);
+  const [valueInput, setValueInput] = useState("");
+  const getOfficines = () => {
+    try {
+      axios
+        .get(url.officines)
+        .then(function (response) {
+          if (response.status === 500) {
+            alert("problème de chargement de data");
+          }
+          setOfficines(response.data["hydra:member"]);
+        })
+        .catch(function (error) {
+          console.log("erreurs api - officines : " + error);
+        });
+    } catch (e) {
+      console.log("erreur asiox : " + e);
+    }
+  };
+  useEffect(() => {
+    getOfficines();
+  }, []);
+
+  return (
+    <>
+      <InputLabel id="select_chambre_officine">select officine</InputLabel>
+      <Select
+        labelId="select_chambre_officine"
+        id="select_chambre_officine_id"
+        label="officine"
+        value={valueInput}
+        onChange={(e) => {
+          props.setOfficine(e.target.value);
+          setValueInput(e.target.value);
+        }}
+        sx={{ width: "100%" }}
+      >
+        {officines.map((item, index) => {
+          return (
+            <MenuItem key={index} value={item.id}>
+              {item.libelle}
+            </MenuItem>
+          );
+        })}
+      </Select>
+    </>
+  );
 }
 
 export default SelectOfficine;

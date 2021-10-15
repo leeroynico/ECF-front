@@ -19,6 +19,7 @@ function CreateChambreFroide() {
     return (
       <Grid item xs={w} sx={center}>
         <TextField
+          id="label"
           sx={{ width: w > 6 ? "90%" : "80%" }}
           id="loginId"
           label={label}
@@ -54,7 +55,6 @@ function CreateChambreFroide() {
             {inputMui("adresse postale", 12)}
             {inputMui("ville")}
             {inputMui("telephonne")}
-
             <Grid
               item
               xs={10}

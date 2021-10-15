@@ -18,27 +18,26 @@ import {
 } from "devextreme-react/chart";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { Grid as GridMui } from "@mui/material";
-
+import { url } from "../axios";
+import SelectChambreFroide from "../special-features/SelectChambreFroide";
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/resultats";
 
 function Charts() {
   const [datas, setDatas] = useState([]);
+  const [officine, setOfficine] = useState(1);
+  const [chambreFroide, setChambreFroide] = useState("");
+  const [date, setDate] = useState("");
   const getDatas = () => {
     axios
-      .get(urlApi)
+      .get(url.resultats)
       .then(function (response) {
         if (response.status != 200) {
           alert("problème de chargement de data");
         }
-        //  console.log(response.data["hydra:member"][5]);
         setDatas(response.data["hydra:member"][0].resultatTemperature[0]);
       })
       .catch(function (error) {
         console.log("erreurs api - axios : " + error);
-      })
-      .then(function () {
-        // always executed
       });
   };
   useEffect(() => {
@@ -54,7 +53,11 @@ function Charts() {
         sx={{ marginTop: 3 }}
       >
         <GridMui item xs={10}>
-          <FormControl fullWidth>
+          <SelectChambreFroide
+            setChambreFroide={setChambreFroide}
+            officine={officine}
+          />
+          {/* <FormControl fullWidth>
             <InputLabel id="selec_chambre_froide">Chambre Froide</InputLabel>
             <Select
               labelId="selec_chambre_froide"
@@ -67,12 +70,30 @@ function Charts() {
               <MenuItem value={20}>chambre 2 </MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
+          </FormControl> */}
+        </GridMui>
+        <GridMui item xs={10}>
+          <FormControl fullWidth>
+            <InputLabel id="select_date">date</InputLabel>
+            <Select
+              labelId="select_date"
+              id="select_date_id"
+              value="date"
+              label="date"
+              // onChange={""}
+            >
+              <MenuItem value={10}>chambre 1 </MenuItem>
+              <MenuItem value={20}>chambre 2 </MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
           </FormControl>
         </GridMui>
       </GridMui>
       <GridMui item xs={11}>
         {datas.length === 0 ? (
           "pas de datas pour ce jour"
+        ) : chambreFroide === "" ? (
+          "veuillez sélectionner une chambre froide et une date"
         ) : (
           <Chart
             palette="Violet"
