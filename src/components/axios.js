@@ -1,12 +1,12 @@
 const axios = require("axios");
 
-export const axiosGet = (url, setState) => {
+export const axiosGet = (url, setState, extension = ["hydra:member"]) => {
   try {
     axios.get(url).then(function (response) {
       if (response.status != 200) {
         alert("problème de chargement de data");
       }
-      setState(response.data["hydra:member"]);
+      setState(response.data + extension);
     });
   } catch (e) {
     console.log("erreur axios : " + e);

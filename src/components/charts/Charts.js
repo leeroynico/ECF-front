@@ -27,6 +27,7 @@ function Charts() {
   const [officine, setOfficine] = useState(1);
   const [chambreFroide, setChambreFroide] = useState("");
   const [date, setDate] = useState("");
+  const [dates, setDates] = useState([]);
   const getDatas = () => {
     axios
       .get(url.resultats)
@@ -34,7 +35,12 @@ function Charts() {
         if (response.status != 200) {
           alert("problème de chargement de data");
         }
+        console.log(response.data["hydra:member"]);
         setDatas(response.data["hydra:member"][0].resultatTemperature[0]);
+        setDates(
+          response.data["hydra:member"].map((item) => item.date.slice(0, 10))
+        );
+        //   setDates(response.data["hydra:member"].filter((item)=>item.date.slice(0,10)===date));
       })
       .catch(function (error) {
         console.log("erreurs api - axios : " + error);
@@ -43,7 +49,8 @@ function Charts() {
   useEffect(() => {
     getDatas();
   }, []);
-
+  console.log(dates);
+  console.log(datas);
   return (
     <>
       <GridMui
@@ -57,20 +64,6 @@ function Charts() {
             setChambreFroide={setChambreFroide}
             officine={officine}
           />
-          {/* <FormControl fullWidth>
-            <InputLabel id="selec_chambre_froide">Chambre Froide</InputLabel>
-            <Select
-              labelId="selec_chambre_froide"
-              id="selec_chambre_froide_id"
-              value="chambre"
-              label="chambre_froide"
-              // onChange={""}
-            >
-              <MenuItem value={10}>chambre 1 </MenuItem>
-              <MenuItem value={20}>chambre 2 </MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl> */}
         </GridMui>
         <GridMui item xs={10}>
           <FormControl fullWidth>
@@ -82,9 +75,13 @@ function Charts() {
               label="date"
               // onChange={""}
             >
-              <MenuItem value={10}>chambre 1 </MenuItem>
-              <MenuItem value={20}>chambre 2 </MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {dates.map((item, index) => {
+                return (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </GridMui>

@@ -88,7 +88,7 @@ function CsvImport() {
   useEffect(() => {
     axiosGet(url.resultats, setDates);
   }, []);
-  console.log(dates);
+
   return (
     <>
       <Grid
