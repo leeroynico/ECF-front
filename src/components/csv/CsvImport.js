@@ -16,35 +16,42 @@ import SelectChambreFroide from "../special-features/SelectChambreFroide";
 import { url, axiosGet } from "../axios";
 
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/resultats";
 
 function CsvImport() {
-  const [datas, setDatas] = useState({});
+  const [datasTemperature, setDatasTemperatures] = useState([]);
+  const [datasHygrometrie, setDatasHygrometrie] = useState([]);
   const [date, setDate] = useState("");
   const [officine, setOfficine] = useState("");
   const [chambreFroide, setChambreFroide] = useState("");
   const [authorizeDownload, setAuthorizeDownload] = useState(false);
   const [domwnloadDone, setDomwnloadDone] = useState(false);
   const [domwnloadFalse, setDomwnloadFalse] = useState(false);
-  const [dates, setDates] = useState({});
+  const [dates, setDates] = useState([]);
 
   const postResultatsToApi = () => {
-    if (officine != "" && chambreFroide != "" && authorizeDownload) {
+    if (
+      officine != "" &&
+      chambreFroide != "" &&
+      authorizeDownload &&
+      datasTemperature.length != 0 &&
+      datasHygrometrie.length != 0
+    ) {
       axios({
         method: "post",
-        url: urlApi,
+        url: url.resultats,
         data: {
-          resultatTemperature: [datas],
+          resultatTemperature: [datasTemperature],
+          resultatHygrometrie: [datasHygrometrie],
           date: date,
           chambreFroide: "/api/chambre_froides/" + chambreFroide,
         },
       })
         .then((response) => {
-          console.log(response.status);
           if (response.status === 201) {
             setDomwnloadDone(true);
             setDomwnloadFalse(false);
           }
+          window.location.reload();
         })
         .catch((e) => {
           console.log("erreur chargement : " + e);
@@ -58,20 +65,42 @@ function CsvImport() {
     }
   };
 
-  const handleOnDrop = (data) => {
-    let newDate = data[1].data[0].slice(0, 10);
-    let notEmpty = dates.filter(
-      (resultat) => resultat.date.slice(0, 10) === newDate
-    );
-    if (data.length != 97 || notEmpty.length != 0) {
+  const handleOnDropTemperature = (data) => {
+    let dateFromCsv = data[1].data[0].slice(0, 10);
+    if (
+      data.length != 97 ||
+      dates.some((item) => item.date.slice(0, 10) === dateFromCsv)
+    ) {
       alert(
         "le fichier csv ne contient pas toutes les valeurs ou la date a déja été enregistré"
       );
       setAuthorizeDownload(false);
     } else {
+      setDate(dateFromCsv);
+      setAuthorizeDownload(true);
+      setDatasTemperatures(
+        data.slice(1).map((item) => ({
+          time: item.data[0].slice(11, 16),
+          data: parseFloat(item.data[1]),
+        }))
+      );
+    }
+  };
+  const handleOnDropHygrometrie = (data) => {
+    let newDate = data[1].data[0].slice(0, 10);
+    console.log(newDate);
+    console.log(date);
+    if (newDate != date) {
+      alert("les dates ne correspondent pas");
+      setAuthorizeDownload(false);
+    }
+    if (data.length != 97) {
+      alert("le fichier csv ne contient pas toutes les valeurs");
+      setAuthorizeDownload(false);
+    } else {
       setDate(newDate);
       setAuthorizeDownload(true);
-      setDatas(
+      setDatasHygrometrie(
         data.slice(1).map((item) => ({
           time: item.data[0].slice(11, 16),
           data: parseFloat(item.data[1]),
@@ -82,12 +111,15 @@ function CsvImport() {
   const handleOnError = (err) => {
     console.log(err);
   };
-  const handleOnRemoveFile = () => {
-    setDatas({});
+  const handleOnRemoveFileTemperature = () => {
+    setDatasTemperatures({});
+  };
+  const handleOnRemoveFileHygrometrie = () => {
+    setDatasHygrometrie({});
   };
   useEffect(() => {
     axiosGet(url.resultats, setDates);
-  }, []);
+  }, [chambreFroide, officine]);
 
   return (
     <>
@@ -100,13 +132,21 @@ function CsvImport() {
       >
         <Grid item xs={10}>
           <Typography variant="h3" sx={{ marginBottom: 1 }} align="center">
-            Importer les datas Températures
+            Importer les datas
           </Typography>
         </Grid>
         {domwnloadDone && <Alert severity="success">chargement effectué</Alert>}
         {domwnloadFalse && (
           <Alert severity="error">chargement non effectué, réessayez</Alert>
         )}
+        <Grid item xs={10} sx={{ mt: 2 }}>
+          <Typography variant="body1" sx={{ marginBottom: 1 }} align="center">
+            Veuillez vérifier dans vos fichiers que toutes les heures y sont
+            présentes (de 0h00 à 23h45), et commencez par charger les données de
+            températures. Vérifiez enfin que les dates soitent au format
+            "2021-28-11" (année - jour - mois)
+          </Typography>
+        </Grid>
         <Grid item xs={10} sx={{ my: 2 }}>
           <SelectOfficine setOfficine={setOfficine} />
         </Grid>
@@ -117,11 +157,29 @@ function CsvImport() {
           />
         </Grid>
         <Grid item xs={10} sx={{ mt: 2 }}>
+          <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
+            TEMPERATURE :
+          </Typography>
           <CSVReader
-            onDrop={handleOnDrop}
+            onDrop={handleOnDropTemperature}
             onError={handleOnError}
             addRemoveButton
-            onRemoveFile={handleOnRemoveFile}
+            onRemoveFile={handleOnRemoveFileTemperature}
+          >
+            <span>
+              faites glisser le fichier .csv ou cliquer pour l'importer
+            </span>
+          </CSVReader>
+        </Grid>
+        <Grid item xs={10} sx={{ mt: 2 }}>
+          <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
+            HYGROMETRIE :
+          </Typography>
+          <CSVReader
+            onDrop={handleOnDropHygrometrie}
+            onError={handleOnError}
+            addRemoveButton
+            onRemoveFile={handleOnRemoveFileHygrometrie}
           >
             <span>
               faites glisser le fichier .csv ou cliquer pour l'importer
@@ -141,7 +199,7 @@ function CsvImport() {
             }}
             sx={{
               backgroundColor: "#DF7373",
-              marginTop: 2,
+              my: 2,
             }}
           >
             envoyer les résultats

@@ -9,7 +9,6 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
-//import LoginData from "./LoginData";
 const bcrypt = require("bcryptjs");
 let salt = bcrypt.genSaltSync(10);
 

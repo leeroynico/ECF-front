@@ -1,5 +1,5 @@
 import React from "react";
-import Charts from "./charts/Charts";
+import ChartsHome from "./charts/ChartsHome";
 import CsvImport from "./csv/CsvImport";
 import CreateOfficine from "./special-features/CreateOfficine";
 import ModifyPassword from "./special-features/ModifyPassword";
@@ -27,7 +27,7 @@ function home() {
   // console.log(localStorage.getItem("role"));
   return (
     <div>
-      <Charts />
+      <ChartsHome />
       <CsvImport />
       <CreateOfficine />
       <ModifyPassword />

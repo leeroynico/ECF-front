@@ -12,7 +12,6 @@ function Login() {
       .get(urlApiUtilisateurs)
       .then(function (response) {
         setUsers(response.data["hydra:member"]);
-        console.log(response.data["hydra:member"]);
       })
       //TODO => gestion erreurs API
       .catch(function (error) {
