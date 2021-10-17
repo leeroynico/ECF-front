@@ -131,40 +131,40 @@ function ChartsHome() {
               title={"hygrométrie"}
               color="#37323E"
             />
+            <GridMui item xs={11}>
+              <FormControlLabel
+                align="center"
+                control={
+                  <Switch
+                    checked={validation}
+                    onChange={() => setValidation(!validation)}
+                  />
+                }
+                label="Validation des données"
+                labelPlacement="start"
+              />
+              <TextField
+                id="outlined-multiline-flexible"
+                label="commentaires"
+                multiline
+                maxRows={5}
+                onChange={(e) => setCommentaire(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                onClick={() => {
+                  updateResultat();
+                }}
+                sx={{
+                  backgroundColor: "#DF7373",
+                  my: 2,
+                }}
+              >
+                valider et/ou commenter
+              </Button>
+            </GridMui>
           </>
         )}
-      </GridMui>
-      <GridMui item xs={11}>
-        <FormControlLabel
-          align="center"
-          control={
-            <Switch
-              checked={validation}
-              onChange={() => setValidation(!validation)}
-            />
-          }
-          label="Validation des données"
-          labelPlacement="start"
-        />
-        <TextField
-          id="outlined-multiline-flexible"
-          label="commentaires"
-          multiline
-          maxRows={5}
-          onChange={(e) => setCommentaire(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          onClick={() => {
-            updateResultat();
-          }}
-          sx={{
-            backgroundColor: "#DF7373",
-            my: 2,
-          }}
-        >
-          valider et/ou commenter
-        </Button>
       </GridMui>
     </>
   );

@@ -2,7 +2,7 @@
 
 ## Description :
 
-Dans le cadre d'une évaluation lors de ma formation de dev Full stack, j'ai réalisé cette application qui permet de gérer les données de température et d'hygrométrie pour des officines (ficitves). On peut alors charges les données, les consulter sous forme de graphique ou encore gérer les techniciens et les officines.
+Dans le cadre d'une évaluation lors de ma formation de dev Full stack, j'ai réalisé cette application qui permet de gérer les données de température et d'hygrométrie pour des officines (fictives). On peut alors charger les données, les consulter sous forme de graphique ou encore gérer les techniciens et les officines.
 
 ## installation en local :
 
@@ -40,12 +40,12 @@ Connecter votre compte :
 
 - heroku login
 
-Ensuite, on peut le build de react sera fait par heroku :
+Ensuite, le build de react sera fait par heroku :
 
 - heroku create 'nom_du_site'
 - git add .
 - git commit -m "react-create-app on Heroku"
-- git push heroku master
+- git push heroku main
 - heroku open
 
 Enjoy ;)

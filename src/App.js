@@ -24,7 +24,13 @@ function App() {
           </Typography>
         </Grid>
         <Grid item xs={1}>
-          <ExitToAppIcon />
+          <ExitToAppIcon
+            onClick={() => {
+              localStorage.clear();
+              window.location.pathname = "/home";
+            }}
+            sx={{ cursor: "pointer" }}
+          />
         </Grid>
       </Grid>
       <BrowserRouter>
@@ -35,11 +41,6 @@ function App() {
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
-
-      {/*  <CsvImport />
-        <Home /> 
-        <Login />
-        <Charts />*/}
     </>
   );
 }

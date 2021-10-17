@@ -1,38 +1,7 @@
 import React from "react";
-import { useState } from "react";
-import "./loginStyle.css";
-import {
-  TextField,
-  Grid,
-  Typography,
-  Button,
-  Paper,
-  Divider,
-} from "@mui/material";
-const bcrypt = require("bcryptjs");
-let salt = bcrypt.genSaltSync(10);
+import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
 
 function Login(props) {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const user = props.users.filter((item) => item.nom === userName);
-  console.log(user);
-  const connect = (e) => {
-    e.preventDefault();
-    if (
-      userName === user[0].nom &&
-      bcrypt.compareSync(password, props.users[0].password)
-    ) {
-      window.location.pathname = "/home";
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("role", user[0].role);
-    }
-    //  localStorage.setItem("role", "admin");
-    // localStorage.clear();
-  };
-  //TODO => changer couleur des inputs de Mui pour coller à la charte
-  //TODO => identifiant dans toutes les tables
-
   return (
     <>
       <Paper
@@ -41,8 +10,7 @@ function Login(props) {
           mx: 2,
           p: 3,
           backgroundColor: "#BABFD180",
-          borderRadius: 20,
-          // color: "#DA5552",
+          borderRadius: 5,
         }}
       >
         <Grid
@@ -52,38 +20,37 @@ function Login(props) {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
-            <Typography>
-              Entrez votre identifiant (ou votre nom) et votre mot de passe
+          <Grid item xs={10}>
+            <Typography paragraph variant="h5" align="center">
+              SE CONNECTER
+            </Typography>
+            <Typography variant="body1">
+              Entrez votre identifiant et votre mot de passe
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={10}>
             <TextField
               id="loginId"
               label="identifiant"
               variant="outlined"
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => props.setIdentifiant(e.target.value)}
             />
           </Grid>
-
-          <Grid item>
+          <Grid item xs={10}>
             <TextField
               type="password"
               id="loginPassword"
               label="mot de passe"
               variant="outlined"
-              // onChange={(e) => {
-              //   setPassword(bcrypt.hashSync(e.target.value, salt));
-              // }}
               onChange={(e) => {
-                setPassword(e.target.value);
+                props.setPassword(e.target.value);
               }}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={10}>
             <Button
               variant="contained"
-              onClick={connect}
+              onClick={props.connect}
               sx={{ backgroundColor: "#DF7373" }}
             >
               se connecter
