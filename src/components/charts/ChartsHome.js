@@ -77,19 +77,14 @@ function ChartsHome() {
 
   return (
     <>
-      <GridMui
-        container
-        spacing={1}
-        justifyContent="center"
-        sx={{ marginTop: 3 }}
-      >
-        <GridMui item xs={10}>
+      <GridMui container justifyContent="center" sx={{ marginTop: 3 }}>
+        <GridMui item xs={10} sx={{ my: 2 }}>
           <SelectChambreFroide
             setChambreFroide={setChambreFroide}
             officine={officine}
           />
         </GridMui>
-        <GridMui item xs={10}>
+        <GridMui item xs={10} sx={{ my: 2 }}>
           <FormControl fullWidth>
             <InputLabel id="select_date">date</InputLabel>
             <Select
@@ -112,8 +107,7 @@ function ChartsHome() {
             </Select>
           </FormControl>
         </GridMui>
-      </GridMui>
-      <GridMui item xs={11}>
+
         {datasTemperature.length === 0 ? (
           <Typography align="center" variant="body1" paragraph>
             veuillez sélectionner une chambre froide et une date pour accéder
@@ -121,17 +115,33 @@ function ChartsHome() {
           </Typography>
         ) : (
           <>
-            <ChartSpline
-              datas={datasTemperature}
-              title="température"
-              color="#DF7373"
-            />
-            <ChartSpline
-              datas={datasHygrometrie}
-              title={"hygrométrie"}
-              color="#37323E"
-            />
-            <GridMui item xs={11}>
+            <GridMui item xs={12}>
+              <ChartSpline
+                datas={datasTemperature}
+                title="température"
+                color="#DF7373"
+              />
+            </GridMui>
+            <GridMui item xs={12}>
+              <ChartSpline
+                datas={datasHygrometrie}
+                title={"hygrométrie"}
+                color="#37323E"
+              />
+            </GridMui>
+            <GridMui
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
+                border: "1px solid rgba(0, 0, 0, .5)",
+                m: 2,
+                width: "95%",
+                borderRadius: "5px",
+                height: "60px",
+              }}
+            >
               <FormControlLabel
                 align="center"
                 control={
@@ -140,16 +150,33 @@ function ChartsHome() {
                     onChange={() => setValidation(!validation)}
                   />
                 }
-                label="Validation des données"
+                label="Validation des données :"
                 labelPlacement="start"
+                sx={{ color: "rgba(0, 0, 0, .5)" }}
               />
+            </GridMui>
+            <GridMui
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <TextField
+                sx={{ width: "95%" }}
                 id="outlined-multiline-flexible"
                 label="commentaires"
                 multiline
                 maxRows={5}
                 onChange={(e) => setCommentaire(e.target.value)}
               />
+            </GridMui>
+            <GridMui
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Button
                 variant="contained"
                 onClick={() => {
@@ -160,7 +187,7 @@ function ChartsHome() {
                   my: 2,
                 }}
               >
-                valider et/ou commenter
+                valider les données du jour
               </Button>
             </GridMui>
           </>

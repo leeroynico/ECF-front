@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Grid,
@@ -8,12 +7,12 @@ import {
   Paper,
   Slider,
 } from "@mui/material";
-import { getRandom } from "../FonctionsRandom";
+import { url, roles, axiosGet } from "../axios";
+
 const axios = require("axios");
-const urlApi = "https://api-projet-ecf.herokuapp.com/api/officines";
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(2);
-const hash = bcrypt.hashSync(getRandom(1, 10).toString(), salt).slice(25);
+//const hash = bcrypt.hashSync(getRandom(1, 10).toString(), salt).slice(25);
 
 function CreateOfficine() {
   const center = { display: "flex", justifyContent: "center" };
@@ -21,38 +20,62 @@ function CreateOfficine() {
   const [ville, setVille] = useState("");
   const [telephone, setTelephone] = useState("");
   const [initialValue, setInitialValue] = useState("");
+  const [utilisateurs, setUtilisateurs] = useState([]);
+  const [nombreCF, setNombreCF] = useState(0);
+
+  const generateOfficineId = (id) => {
+    return "PHARMA - 62" + id;
+  };
+  useEffect(() => {
+    axiosGet(url.officines, setUtilisateurs);
+  }, [adresse]);
+  console.log(utilisateurs);
 
   const create = (e) => {
     if (adresse != "" && ville != "") {
       setInitialValue("");
       axios({
         method: "post",
-        url: urlApi,
+        url: url.officines,
         data: {
           libelle: "test",
           adresse: adresse + "-" + ville,
           telephone: telephone,
           password: "passordtest",
+          role: roles.officine,
         },
       });
       window.location.reload();
+    } else {
+      alert("veuillez remplir les champs svp ");
     }
   };
 
-  const inputMui = (label, setState, w = 6) => {
+  const inputMui = (label, setState, w = 6, desactive = false) => {
     return (
       <Grid item xs={w} sx={center}>
         <TextField
           sx={{ width: w > 6 ? "90%" : "80%" }}
-          id="loginId"
           label={label}
           variant="outlined"
-          type={label === "password" ? "password" : ""}
+          type={
+            label === "password"
+              ? "password"
+              : label === "nombre chambre froide"
+              ? "number"
+              : ""
+          }
           onChange={(e) => setState(e.target.value)}
+          disabled={desactive ? true : false}
         />
       </Grid>
     );
   };
+  let inputCB = inputMui("chambre", "", 12, true);
+  let arrayInputCB = [];
+  for (let i = 0; i < nombreCF; i++) {
+    arrayInputCB.push(inputMui("chambre - " + i, "", 12, true));
+  }
 
   return (
     <>
@@ -60,7 +83,7 @@ function CreateOfficine() {
         sx={{
           marginTop: 10,
           backgroundColor: "#BABFD180",
-          borderRadius: 10,
+          borderRadius: 5,
           // color: "#DA5552",
         }}
       >
@@ -70,11 +93,17 @@ function CreateOfficine() {
               crééer une officine
             </Typography>
           </Grid>
-          {inputMui("identifiant")}
-          {inputMui("password")}
           {inputMui("adresse postale", setAdresse, 12)}
           {inputMui("ville", setVille)}
           {inputMui("telephonne", setTelephone)}
+          {inputMui("identifiant", "", 6, true)}
+          {inputMui("password", "", 6, true)}
+          {inputMui("nombre chambre froide", setNombreCF, 8)}
+          {arrayInputCB.map((input, i) => (
+            <span key={i} style={{ marginTop: "10px" }}>
+              {input}
+            </span>
+          ))}
           <Grid
             item
             xs={10}

@@ -9,9 +9,8 @@ function Login() {
   const [identifiant, setIdentifiant] = useState("");
   const [password, setPassword] = useState("");
   const [utilisateurs, setUtilisateurs] = useState([]);
-  const [role, setRole] = useState("");
   const utilisateur = utilisateurs.filter((item) => item.nom === identifiant);
-  // console.log(utilisateur);
+
   const connect = (e) => {
     e.preventDefault();
     if (
@@ -24,8 +23,6 @@ function Login() {
     } else {
       alert("mauvais identifiant ou mot de passe");
     }
-    // localStorage.setItem("role", "admin");
-    // localStorage.clear();
   };
 
   useEffect(() => {

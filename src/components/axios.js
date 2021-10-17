@@ -13,18 +13,6 @@ export const axiosGet = (url, setState) => {
   }
 };
 
-// export const axiosPost = (url, data) => {
-//   try {
-//     axios({
-//       method: "post",
-//       url: url,
-//       data: data,
-//     });
-//   } catch (e) {
-//     console.log("erreur post :" + e);
-//   }
-// };
-
 const urlBase = "https://api-projet-ecf.herokuapp.com/api/";
 export const url = {
   chambreFroides: urlBase + "chambre_froides",
