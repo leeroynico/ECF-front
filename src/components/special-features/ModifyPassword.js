@@ -61,7 +61,11 @@ function ModifyPassword() {
           alignItems="center"
         >
           <Grid item xs={8}>
-            <Typography>Modifier le mot de passe d'un technicien</Typography>
+            <Typography>
+              {role === roles.technicien
+                ? "modifier mon mot de passe"
+                : "Modifier le mot de passe d'un technicien"}
+            </Typography>
           </Grid>
           {updateDone && (
             <Alert severity="success">modification effectuée</Alert>

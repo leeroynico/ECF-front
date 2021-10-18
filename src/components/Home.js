@@ -11,17 +11,45 @@ let role = localStorage.getItem("role");
 
 function home() {
   return (
-    <div>
-      {role === roles.admin || role === roles.officine ? <ChartsHome /> : ""}
-      {role === roles.admin || role === roles.technicien ? <CsvImport /> : ""}
-      {role === roles.admin ? <CreateOfficine /> : ""}
-      {role === roles.admin ? <CreateTechnicien /> : ""}
-      {role === roles.admin || role === roles.technicien ? (
-        <ModifyPassword />
-      ) : (
-        ""
-      )}
-    </div>
+    <>
+      <Grid container justifyContent="center" spacing={2}>
+        {role === roles.admin || role === roles.officine ? (
+          <Grid item md={10} xs={11}>
+            <ChartsHome />
+          </Grid>
+        ) : (
+          ""
+        )}
+        {role === roles.admin || role === roles.technicien ? (
+          <Grid item md={6} xs={11}>
+            <CsvImport />
+          </Grid>
+        ) : (
+          ""
+        )}
+        {role === roles.admin ? (
+          <Grid item md={6} xs={11}>
+            <CreateOfficine />
+          </Grid>
+        ) : (
+          ""
+        )}
+        {role === roles.admin ? (
+          <Grid item md={4} xs={11}>
+            <CreateTechnicien />
+          </Grid>
+        ) : (
+          ""
+        )}
+        {role === roles.admin || role === roles.technicien ? (
+          <Grid item md={4} xs={11}>
+            <ModifyPassword />
+          </Grid>
+        ) : (
+          ""
+        )}
+      </Grid>
+    </>
   );
 }
 

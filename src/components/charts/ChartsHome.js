@@ -13,15 +13,19 @@ import {
   Alert,
 } from "@mui/material";
 import { Grid as GridMui } from "@mui/material";
-import { url } from "../axios";
+import { url, roles } from "../axios";
 import SelectChambreFroide from "../special-features/SelectChambreFroide";
 import ChartSpline from "./ChartSpline";
+import SelectOfficine from "../special-features/SelectOfficine";
 const axios = require("axios");
+let role = localStorage.getItem("role");
 
 function ChartsHome() {
   const [datasTemperature, setDatasTemperature] = useState([]);
   const [datasHygrometrie, setDatasHygrometrie] = useState([]);
-  const officine = localStorage.getItem("idOfficine");
+  const [officine, setOfficine] = useState(
+    role === roles.admin ? "" : localStorage.getItem("idOfficine")
+  );
   const [chambreFroide, setChambreFroide] = useState(null);
   const [date, setDate] = useState("idOfficine");
   const [dates, setDates] = useState([]);
@@ -92,6 +96,13 @@ function ChartsHome() {
             Consulter les données
           </Typography>
         </GridMui>
+        {role === roles.admin ? (
+          <GridMui item xs={10} sx={{ my: 2 }}>
+            <SelectOfficine setOfficine={setOfficine} />
+          </GridMui>
+        ) : (
+          ""
+        )}
         <GridMui item xs={10} sx={{ my: 2 }}>
           <SelectChambreFroide
             setChambreFroide={setChambreFroide}
