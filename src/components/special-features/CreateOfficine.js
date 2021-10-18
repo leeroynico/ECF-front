@@ -45,49 +45,67 @@ function CreateOfficine() {
     generateOfficineId();
   }, [libelle]);
 
-  // console.log(
-  //   "test hash mot de passe",
-  //   bcrypt.compareSync(
-  //     "805lnbng9f",
-  //     "$2a$10$35nlvpeNy.BODmJpI6PpDOl6HR0PzvYPS33WKWYfCa5apA/WSvAka"
-  //   )
-  // );
-
   // création dans la bdd officine + chambre froide
   const [idNewOfficine, setIdNewOfficine] = useState(0);
-  const create = (e) => {
+  const create = async (e) => {
     if (adresse != "" && ville != "") {
-      setInitialValue("");
       //create officine
-      axios({
-        method: "post",
-        url: url.officines,
-        data: {
-          libelle: libelle,
-          adresse: adresse + "-" + ville,
-          telephone: telephone,
-          password: bcrypt.hashSync(password, salt),
-          customIdentifiant: identifiant,
-        },
-      }).then((responseOfficine) => {
-        setIdNewOfficine(responseOfficine.data["@id"]);
-      });
+      let idOff = "";
+      try {
+        await axios({
+          method: "post",
+          url: url.officines,
+          data: {
+            libelle: libelle,
+            adresse: adresse + "-" + ville,
+            telephone: telephone,
+            password: bcrypt.hashSync(password, salt),
+            customIdentifiant: identifiant,
+          },
+        }).then((responseOfficine) => {
+          console.log(responseOfficine);
+          idOff = responseOfficine.data["@id"];
+          setIdNewOfficine(responseOfficine.data["@id"]);
+          console.log(responseOfficine.data["@id"]);
+        });
+        if (nombreCF > 0) {
+          for (let i = 0; i < nombreCF; i++) {
+            await axios({
+              method: "post",
+              timout: 100,
+              url: url.chambreFroides,
+              data: {
+                libell: "chambre - " + (i + 1),
+                officine: idOff,
+              },
+            });
+          }
+        }
+      } catch (error) {
+        console.log("post officines erreur : ", error);
+      }
 
       //create chambre froide
-      if (nombreCF > 0) {
-        for (let i = 0; i < nombreCF; i++) {
-          axios({
-            method: "post",
-            url: url.chambreFroides,
-            data: {
-              libell: "chambre - " + (i + 1),
-              officine: idNewOfficine,
-            },
-          }).then((responseChambreF) =>
-            console.log("response chambre froide", responseChambreF)
-          );
-        }
-      }
+      // if (nombreCF > 0 && idNewOfficine != 0) {
+      //   for (let i = 0; i < nombreCF; i++) {
+      //     try {
+      //       await axios({
+      //         method: "post",
+      //         timout: 100,
+      //         url: url.chambreFroides,
+      //         data: {
+      //           libell: "chambre - " + (i + 1),
+      //           officine: idNewOfficine,
+      //         },
+      //       }).then((responseChambreF) =>
+      //         console.log("response chambre froide", responseChambreF)
+      //       );
+      //     } catch (error) {
+      //       console.log("post chambres froides  erreur : ", error);
+      //     }
+      //   }
+      // }
+
       alert(
         `veuillez noter le mot de passe pour ${identifiant} : ${password} (pour vous connecter ultérieurement)`
       );

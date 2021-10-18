@@ -60,7 +60,11 @@ function CsvImport() {
     let dateFromCsv = data[1].data[0].slice(0, 10);
     if (
       data.length != 97 ||
-      dates.some((item) => item.date.slice(0, 10) === dateFromCsv)
+      dates.some(
+        (item) =>
+          item.date.slice(0, 10) === dateFromCsv &&
+          item.chambre_froide === "/api/chambre_froides/" + chambreFroide
+      )
     ) {
       alert(
         "le fichier csv ne contient pas toutes les valeurs ou la date a déja été enregistré"

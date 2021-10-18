@@ -44,7 +44,7 @@ function SelectOfficine(props) {
         {officines.map((item, index) => {
           return (
             <MenuItem key={index} value={item.id}>
-              {item.libelle}
+              {item.libelle} {item.custom_identifiant}
             </MenuItem>
           );
         })}

@@ -10,6 +10,7 @@ import {
   Switch,
   TextField,
   Button,
+  Alert,
 } from "@mui/material";
 import { Grid as GridMui } from "@mui/material";
 import { url } from "../axios";
@@ -20,9 +21,9 @@ const axios = require("axios");
 function ChartsHome() {
   const [datasTemperature, setDatasTemperature] = useState([]);
   const [datasHygrometrie, setDatasHygrometrie] = useState([]);
-  const [officine, setOfficine] = useState(1);
+  const officine = localStorage.getItem("idOfficine");
   const [chambreFroide, setChambreFroide] = useState(null);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("idOfficine");
   const [dates, setDates] = useState([]);
   const [valueInput, setValueInput] = useState("");
   const [validation, setValidation] = useState(false);
@@ -62,14 +63,18 @@ function ChartsHome() {
     getDatas();
   }, [chambreFroide, date]);
 
-  const updateResultat = () => {
+  // ajout d'un commentaire et validation des résultats
+  const [updateDone, setUpdateDone] = useState(false);
+  const updateResultat = async () => {
     try {
-      axios
+      await axios
         .put(url.resultats + "/" + resultatId, {
           validation: validation,
           commentaire: commentaire,
         })
-        .then((response) => console.log("update data resultat :", response));
+        .then((response) => {
+          if (response.status === 200) setUpdateDone(true);
+        });
     } catch (error) {
       console.log("error update resultat : " + error);
     }
@@ -138,6 +143,7 @@ function ChartsHome() {
                 color="#37323E"
               />
             </GridMui>
+            {updateDone && <Alert severity="success">commentaire envoyé</Alert>}
             <GridMui
               item
               xs={12}
