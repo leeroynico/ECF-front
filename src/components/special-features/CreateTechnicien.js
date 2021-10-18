@@ -8,42 +8,35 @@ import {
   Paper,
   Slider,
 } from "@mui/material";
-import { getRandom } from "../FonctionsRandom";
-import { url, axiosPost } from "../axios";
+import { url, roles } from "../axios";
+import { escapeHtml } from "../FonctionsRandomPassword";
 
 const axios = require("axios");
-//const urlApi = "https://api-projet-ecf.herokuapp.com/api/utilisateurs";
 const bcrypt = require("bcryptjs");
-const salt = bcrypt.genSaltSync(2);
-const hash = bcrypt.hashSync(getRandom(1, 10).toString(), salt).slice(25);
+const salt = bcrypt.genSaltSync(10);
 
 function CreateOfficine() {
   const center = { display: "flex", justifyContent: "center" };
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const data = {
-    nom: nom,
-    prenom: prenom,
-    password: "string",
-    telephone: telephone,
-    role: "technicien",
-  };
+  const [password, setPassword] = useState("");
 
   const create = () => {
-    if (adresse != "" && ville != "") {
-      // axios({
-      //   method: "post",
-      //   url: urlApi,
-      //   data: {
-      //     nom: "marie",
-      //     prenom: "jesus",
-      //     password: "string",
-      //     role: "technicien",
-      //   },
-      // });
-      axiosPost(url.utilisateurs, data);
-      window.location.reload();
+    if (nom != "" && prenom != "" && password != "") {
+      axios({
+        method: "post",
+        url: url.utilisateurs,
+        data: {
+          nom: nom,
+          prenom: prenom,
+          password: bcrypt.hashSync(password, salt),
+          role: roles.technicien,
+        },
+      })
+        .then((response) =>
+          console.log("create technicien response : ", response)
+        )
+        .catch((error) => console.log(error));
     }
   };
 
@@ -56,7 +49,7 @@ function CreateOfficine() {
           label={label}
           variant="outlined"
           type={label === "password" ? "password" : ""}
-          onChange={(e) => setState(e.target.value)}
+          onChange={(e) => setState(escapeHtml(e.target.value))}
         />
       </Grid>
     );
@@ -69,20 +62,17 @@ function CreateOfficine() {
           marginTop: 10,
           backgroundColor: "#BABFD180",
           borderRadius: 10,
-          // color: "#DA5552",
         }}
       >
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h5" align="center">
-              crééer une officine
+              crééer un technicien
             </Typography>
           </Grid>
-          {inputMui("identifiant")}
-          {inputMui("password")}
-          {inputMui("adresse postale", setAdresse, 12)}
-          {inputMui("ville", setVille)}
-          {inputMui("telephonne", setTelephone)}
+          {inputMui("nom", setNom)}
+          {inputMui("prenom", setPrenom)}
+          {inputMui("password", setPassword)}
           <Grid
             item
             xs={10}
@@ -97,7 +87,7 @@ function CreateOfficine() {
               onClick={create}
               sx={{ backgroundColor: "#DF7373", width: "60%" }}
             >
-              créer
+              créer technicien
             </Button>
           </Grid>
         </Grid>

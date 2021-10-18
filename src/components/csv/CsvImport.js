@@ -1,16 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { CSVReader } from "react-papaparse";
-import {
-  Button,
-  Typography,
-  Grid,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  Alert,
-} from "@mui/material";
+import { Button, Typography, Grid, Paper, Alert } from "@mui/material";
 import SelectOfficine from "../special-features/SelectOfficine";
 import SelectChambreFroide from "../special-features/SelectChambreFroide";
 import { url, axiosGet } from "../axios";
@@ -88,8 +79,6 @@ function CsvImport() {
   };
   const handleOnDropHygrometrie = (data) => {
     let newDate = data[1].data[0].slice(0, 10);
-    console.log(newDate);
-    console.log(date);
     if (newDate != date) {
       alert("les dates ne correspondent pas");
       setAuthorizeDownload(false);
@@ -123,89 +112,95 @@ function CsvImport() {
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ backgroundColor: "#BABFD180" }}
+      <Paper
+        elevation={4}
+        sx={{ borderRadius: 10, backgroundColor: "#BABFD180" }}
       >
-        <Grid item xs={10}>
-          <Typography variant="h3" sx={{ marginBottom: 1 }} align="center">
-            Importer les datas
-          </Typography>
-        </Grid>
-        {domwnloadDone && <Alert severity="success">chargement effectué</Alert>}
-        {domwnloadFalse && (
-          <Alert severity="error">chargement non effectué, réessayez</Alert>
-        )}
-        <Grid item xs={10} sx={{ mt: 2 }}>
-          <Typography variant="body1" sx={{ marginBottom: 1 }} align="center">
-            Veuillez vérifier dans vos fichiers que toutes les heures y sont
-            présentes (de 0h00 à 23h45), et commencez par charger les données de
-            températures. Vérifiez enfin que les dates soitent au format
-            "2021-28-11" (année - jour - mois)
-          </Typography>
-        </Grid>
-        <Grid item xs={10} sx={{ my: 2 }}>
-          <SelectOfficine setOfficine={setOfficine} />
-        </Grid>
-        <Grid item xs={10}>
-          <SelectChambreFroide
-            setChambreFroide={setChambreFroide}
-            officine={officine}
-          />
-        </Grid>
-        <Grid item xs={10} sx={{ mt: 2 }}>
-          <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
-            TEMPERATURE :
-          </Typography>
-          <CSVReader
-            onDrop={handleOnDropTemperature}
-            onError={handleOnError}
-            addRemoveButton
-            onRemoveFile={handleOnRemoveFileTemperature}
-          >
-            <span>
-              faites glisser le fichier .csv ou cliquer pour l'importer
-            </span>
-          </CSVReader>
-        </Grid>
-        <Grid item xs={10} sx={{ mt: 2 }}>
-          <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
-            HYGROMETRIE :
-          </Typography>
-          <CSVReader
-            onDrop={handleOnDropHygrometrie}
-            onError={handleOnError}
-            addRemoveButton
-            onRemoveFile={handleOnRemoveFileHygrometrie}
-          >
-            <span>
-              faites glisser le fichier .csv ou cliquer pour l'importer
-            </span>
-          </CSVReader>
-        </Grid>
         <Grid
           container
-          item
-          xs={10}
-          sx={{ display: "flex", justifyContent: "center" }}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Button
-            variant="contained"
-            onClick={() => {
-              postResultatsToApi();
-            }}
-            sx={{
-              backgroundColor: "#DF7373",
-              my: 2,
-            }}
+          <Grid item xs={10}>
+            <Typography variant="h3" sx={{ marginBottom: 1 }} align="center">
+              Importer les datas
+            </Typography>
+          </Grid>
+          {domwnloadDone && (
+            <Alert severity="success">chargement effectué</Alert>
+          )}
+          {domwnloadFalse && (
+            <Alert severity="error">chargement non effectué, réessayez</Alert>
+          )}
+          <Grid item xs={10} sx={{ mt: 2 }}>
+            <Typography variant="body1" sx={{ marginBottom: 1 }} align="center">
+              Veuillez vérifier dans vos fichiers que toutes les heures y sont
+              présentes (de 0h00 à 23h45), et commencez par charger les données
+              de températures. Vérifiez enfin que les dates soitent au format
+              "2021-28-11" (année - jour - mois)
+            </Typography>
+          </Grid>
+          <Grid item xs={10} sx={{ my: 2 }}>
+            <SelectOfficine setOfficine={setOfficine} />
+          </Grid>
+          <Grid item xs={10}>
+            <SelectChambreFroide
+              setChambreFroide={setChambreFroide}
+              officine={officine}
+            />
+          </Grid>
+          <Grid item xs={10} sx={{ mt: 2 }}>
+            <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
+              TEMPERATURE :
+            </Typography>
+            <CSVReader
+              onDrop={handleOnDropTemperature}
+              onError={handleOnError}
+              addRemoveButton
+              onRemoveFile={handleOnRemoveFileTemperature}
+            >
+              <span>
+                faites glisser le fichier .csv ou cliquer pour l'importer
+              </span>
+            </CSVReader>
+          </Grid>
+          <Grid item xs={10} sx={{ mt: 2 }}>
+            <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
+              HYGROMETRIE :
+            </Typography>
+            <CSVReader
+              onDrop={handleOnDropHygrometrie}
+              onError={handleOnError}
+              addRemoveButton
+              onRemoveFile={handleOnRemoveFileHygrometrie}
+            >
+              <span>
+                faites glisser le fichier .csv ou cliquer pour l'importer
+              </span>
+            </CSVReader>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={10}
+            sx={{ display: "flex", justifyContent: "center" }}
           >
-            envoyer les résultats
-          </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                postResultatsToApi();
+              }}
+              sx={{
+                backgroundColor: "#DF7373",
+                my: 2,
+              }}
+            >
+              envoyer les résultats
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      </Paper>
     </>
   );
 }

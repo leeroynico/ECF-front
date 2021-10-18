@@ -77,7 +77,16 @@ function ChartsHome() {
 
   return (
     <>
-      <GridMui container justifyContent="center" sx={{ marginTop: 3 }}>
+      <GridMui
+        container
+        justifyContent="center"
+        sx={{ borderRadius: 10, my: 3, backgroundColor: "#BABFD180" }}
+      >
+        <GridMui item xs={10}>
+          <Typography variant="h3" sx={{ marginBottom: 1 }} align="center">
+            Consulter les données
+          </Typography>
+        </GridMui>
         <GridMui item xs={10} sx={{ my: 2 }}>
           <SelectChambreFroide
             setChambreFroide={setChambreFroide}

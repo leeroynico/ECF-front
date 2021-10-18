@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Grid,
@@ -6,56 +6,96 @@ import {
   Button,
   Paper,
   Divider,
+  Alert,
 } from "@mui/material";
+import SelectTechnicien from "./SelectTechnicien";
+import { url, roles } from "../axios";
+const axios = require("axios");
+const bcrypt = require("bcryptjs");
+const salt = bcrypt.genSaltSync(10);
+let role = localStorage.getItem("role");
+let idTechnicien = localStorage.getItem("id");
 
 function ModifyPassword() {
+  const [technicien, setTechnicien] = useState(
+    role === roles.technicien ? idTechnicien : 0
+  );
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [updateDone, setupdateDone] = useState(false);
+
+  const update = () => {
+    if (password === passwordConfirm) {
+      try {
+        axios
+          .put(url.utilisateurs + "/" + technicien, {
+            password: bcrypt.hashSync(password, salt),
+          })
+          .then((response) => {
+            console.log("update password :", response);
+            setupdateDone(true);
+          });
+      } catch (error) {
+        console.log("error update pawword : " + error);
+      }
+    } else {
+      alert("vérifiez vos mots de passe ");
+    }
+  };
+
   return (
     <>
       <Paper
         sx={{
           marginTop: 10,
-          mx: 2,
-          p: 3,
           backgroundColor: "#BABFD180",
-          borderRadius: 20,
-          // color: "#DA5552",
+          borderRadius: 10,
+          marginBottom: 10,
         }}
       >
         <Grid
           container
-          spacing={4}
+          spacing={2}
           direction="row"
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
+          <Grid item xs={8}>
             <Typography>Modifier le mot de passe d'un technicien</Typography>
           </Grid>
-          <Grid item>
+          {updateDone && (
+            <Alert severity="success">modification effectuée</Alert>
+          )}
+          {role === roles.admin ? (
+            <Grid item xs={10} sx={{ my: 2 }}>
+              <SelectTechnicien setTechnicien={setTechnicien} />
+            </Grid>
+          ) : (
+            ""
+          )}
+          <Grid item xs={6}>
             <TextField
               type="password"
-              id="loginId"
               label="mot de passe"
               variant="outlined"
-              // onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={6}>
             <TextField
               type="password"
-              id="loginId"
               label="confirmer mot de passe"
               variant="outlined"
-              // onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </Grid>
           <Grid item>
             <Button
               variant="contained"
-              // onClick={send}
-              sx={{ backgroundColor: "#DF7373" }}
+              onClick={update}
+              sx={{ backgroundColor: "#DF7373", marginBottom: 5 }}
             >
-              modifier
+              modifier mot de passe
             </Button>
           </Grid>
         </Grid>
