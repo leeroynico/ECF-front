@@ -49,3 +49,7 @@ Ensuite, le build de react sera fait par heroku :
 - heroku open
 
 Enjoy ;)
+
+## documentation
+
+vous trouverez toues les documents relatifs à la documentation ( manuel d'utilisation, charte graphique ainsi que le documentation technique )dnas le dossier situé à la racine doc_pdf/ .
