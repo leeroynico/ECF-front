@@ -20,6 +20,8 @@ Ensuite, installer toutes les dépendances nécessaires au bon fonctionnement de
 
 - npm install
 
+Ce site va récupérer les données d'une API ( https://github.com/leeroynico/api-projet-ecf ). Soit vous laissez l'api pointé vers une bdd extérieur, mais vous pouvez aussi récupérer le projet backend de l'api, l'installer et gérer l'api en local. Il faudra alort modifier la ligne 17 du fichier src/components/axios.js pour y mettre l'adresse de l'API en local.
+
 Vous pouvez ensuite lancer l'application avec :
 
 - npm start
@@ -52,4 +54,4 @@ Enjoy ;)
 
 ## documentation
 
-vous trouverez toues les documents relatifs à la documentation ( manuel d'utilisation, charte graphique ainsi que le documentation technique )dnas le dossier situé à la racine doc_pdf/ .
+vous trouverez toues les documents relatifs à la documentation ( manuel d'utilisation, charte graphique ainsi que le documentation technique )dans le dossier situé à la racine de ce projet: doc_pdf/ .

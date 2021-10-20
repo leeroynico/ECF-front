@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
-import { url, roles, axiosGet } from "../axios";
+import { url } from "../axios";
 import { escapeHtml } from "../FonctionsRandomPassword";
 
 const axios = require("axios");
@@ -15,7 +15,6 @@ function CreateOfficine() {
   const [adresse, setAdresse] = useState(null);
   const [ville, setVille] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [initialValue, setInitialValue] = useState("");
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [nombreCF, setNombreCF] = useState(0);
 
@@ -46,9 +45,9 @@ function CreateOfficine() {
   }, [libelle]);
 
   // création dans la bdd officine + chambre froide
-  const [idNewOfficine, setIdNewOfficine] = useState(0);
+
   const create = async (e) => {
-    if (adresse != "" && ville != "") {
+    if (adresse !== "" && ville !== "") {
       //create officine
       let idOff = "";
       try {
@@ -63,10 +62,7 @@ function CreateOfficine() {
             customIdentifiant: identifiant,
           },
         }).then((responseOfficine) => {
-          console.log(responseOfficine);
           idOff = responseOfficine.data["@id"];
-          setIdNewOfficine(responseOfficine.data["@id"]);
-          console.log(responseOfficine.data["@id"]);
         });
         if (nombreCF > 0) {
           for (let i = 0; i < nombreCF; i++) {
@@ -84,28 +80,6 @@ function CreateOfficine() {
       } catch (error) {
         console.log("post officines erreur : ", error);
       }
-
-      //create chambre froide
-      // if (nombreCF > 0 && idNewOfficine != 0) {
-      //   for (let i = 0; i < nombreCF; i++) {
-      //     try {
-      //       await axios({
-      //         method: "post",
-      //         timout: 100,
-      //         url: url.chambreFroides,
-      //         data: {
-      //           libell: "chambre - " + (i + 1),
-      //           officine: idNewOfficine,
-      //         },
-      //       }).then((responseChambreF) =>
-      //         console.log("response chambre froide", responseChambreF)
-      //       );
-      //     } catch (error) {
-      //       console.log("post chambres froides  erreur : ", error);
-      //     }
-      //   }
-      // }
-
       alert(
         `veuillez noter le mot de passe pour ${identifiant} : ${password} (pour vous connecter ultérieurement)`
       );
@@ -138,7 +112,6 @@ function CreateOfficine() {
   };
 
   //génération des chambres froides selon leur nombre
-
   let arrayInputCB = [];
   for (let i = 0; i < nombreCF; i++) {
     arrayInputCB.push(inputMui("chambre - " + (i + 1), "", 12, true));
@@ -148,15 +121,14 @@ function CreateOfficine() {
     <>
       <Paper
         sx={{
-          marginTop: 10,
+          marginTop: 2,
           backgroundColor: "#BABFD180",
-          borderRadius: 5,
-          // color: "#DA5552",
+          borderRadius: 10,
         }}
       >
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h5" align="center">
+            <Typography variant="h3" sx={{ marginBottom: 1 }} align="center">
               crééer une officine
             </Typography>
           </Grid>

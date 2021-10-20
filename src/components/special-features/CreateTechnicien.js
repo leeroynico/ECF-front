@@ -1,13 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {
-  TextField,
-  Grid,
-  Typography,
-  Button,
-  Paper,
-  Slider,
-} from "@mui/material";
+import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
 import { url, roles } from "../axios";
 import { escapeHtml } from "../FonctionsRandomPassword";
 
@@ -22,7 +15,7 @@ function CreateOfficine() {
   const [password, setPassword] = useState("");
 
   const create = () => {
-    if (nom != "" && prenom != "" && password != "") {
+    if (nom !== "" && prenom !== "" && password !== "") {
       axios({
         method: "post",
         url: url.utilisateurs,
@@ -66,7 +59,7 @@ function CreateOfficine() {
       >
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h5" align="center">
+            <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
               crééer un technicien
             </Typography>
           </Grid>

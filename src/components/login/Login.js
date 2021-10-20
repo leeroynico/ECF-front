@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import LoginView from "./LoginView";
 import { url, axiosGet, roles } from "../axios";
 const bcrypt = require("bcryptjs");
-let salt = bcrypt.genSaltSync(10);
-const axios = require("axios");
 function Login() {
   const [identifiant, setIdentifiant] = useState("");
   const [password, setPassword] = useState("");

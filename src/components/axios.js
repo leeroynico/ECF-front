@@ -3,7 +3,7 @@ const axios = require("axios");
 export const axiosGet = (url, setState) => {
   try {
     axios.get(url).then(function (response) {
-      if (response.status != 200) {
+      if (response.status !== 200) {
         alert("problème de chargement de data");
       }
       setState(response.data["hydra:member"]);
@@ -13,6 +13,7 @@ export const axiosGet = (url, setState) => {
   }
 };
 
+//const urlBase = "https://127.0.0.1:8000/api/";
 const urlBase = "https://api-projet-ecf.herokuapp.com/api/";
 export const url = {
   chambreFroides: urlBase + "chambre_froides",

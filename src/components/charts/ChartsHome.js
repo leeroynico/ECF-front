@@ -38,7 +38,7 @@ function ChartsHome() {
     axios
       .get(url.resultats)
       .then(function (response) {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           alert("sélectionner une chambre froide et une date");
         }
         let uri = "/api/chambre_froides/" + chambreFroide;

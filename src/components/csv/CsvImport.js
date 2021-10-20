@@ -21,11 +21,11 @@ function CsvImport() {
 
   const postResultatsToApi = () => {
     if (
-      officine != "" &&
-      chambreFroide != "" &&
+      officine !== "" &&
+      chambreFroide !== "" &&
       authorizeDownload &&
-      datasTemperature.length != 0 &&
-      datasHygrometrie.length != 0
+      datasTemperature.length !== 0 &&
+      datasHygrometrie.length !== 0
     ) {
       axios({
         method: "post",
@@ -59,7 +59,7 @@ function CsvImport() {
   const handleOnDropTemperature = (data) => {
     let dateFromCsv = data[1].data[0].slice(0, 10);
     if (
-      data.length != 97 ||
+      data.length !== 97 ||
       dates.some(
         (item) =>
           item.date.slice(0, 10) === dateFromCsv &&
@@ -83,11 +83,11 @@ function CsvImport() {
   };
   const handleOnDropHygrometrie = (data) => {
     let newDate = data[1].data[0].slice(0, 10);
-    if (newDate != date) {
+    if (newDate !== date) {
       alert("les dates ne correspondent pas");
       setAuthorizeDownload(false);
     }
-    if (data.length != 97) {
+    if (data.length !== 97) {
       alert("le fichier csv ne contient pas toutes les valeurs");
       setAuthorizeDownload(false);
     } else {

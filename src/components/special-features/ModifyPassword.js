@@ -5,7 +5,6 @@ import {
   Typography,
   Button,
   Paper,
-  Divider,
   Alert,
 } from "@mui/material";
 import SelectTechnicien from "./SelectTechnicien";
@@ -61,7 +60,7 @@ function ModifyPassword() {
           alignItems="center"
         >
           <Grid item xs={8}>
-            <Typography>
+            <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
               {role === roles.technicien
                 ? "modifier mon mot de passe"
                 : "Modifier le mot de passe d'un technicien"}
