@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InputLabel, Select, MenuItem } from "@mui/material";
-import { url } from "../axios";
+import { url, jwt } from "../axios";
 const axios = require("axios");
 
 function SelectOfficine(props) {
@@ -8,6 +8,7 @@ function SelectOfficine(props) {
   const [valueInput, setValueInput] = useState("");
   const getOfficines = () => {
     try {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
       axios
         .get(url.officines)
         .then(function (response) {

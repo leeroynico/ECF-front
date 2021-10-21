@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InputLabel, Select, MenuItem } from "@mui/material";
-import { url } from "../axios";
+import { url, jwt } from "../axios";
 const axios = require("axios");
 
 function SelectChambreFroide(props) {
@@ -8,6 +8,7 @@ function SelectChambreFroide(props) {
   const [valueInput, setValueInput] = useState("");
 
   const getChambreFroides = () => {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
     axios
       .get(url.chambreFroides)
       .then(function (response) {

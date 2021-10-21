@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
-import { url } from "../axios";
+import { url, jwt } from "../axios";
 import { escapeHtml } from "../FonctionsRandomPassword";
 
 const axios = require("axios");
@@ -25,10 +25,11 @@ function CreateOfficine() {
         : "PHARMA - 62 -" + (lastId + 1);
     setIdentifiant(identifiant);
   };
-  //805lnbng9f
+
   const [lastId, setLastId] = useState(0);
   useEffect(() => {
     try {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
       axios.get(url.officines).then(function (response) {
         if (response.status != 200) {
           alert("problème de chargement de data");
@@ -51,6 +52,7 @@ function CreateOfficine() {
       //create officine
       let idOff = "";
       try {
+        axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
         await axios({
           method: "post",
           url: url.officines,

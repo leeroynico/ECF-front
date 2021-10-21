@@ -13,7 +13,7 @@ import {
   Alert,
 } from "@mui/material";
 import { Grid as GridMui } from "@mui/material";
-import { url, roles } from "../axios";
+import { url, roles, jwt } from "../axios";
 import SelectChambreFroide from "../special-features/SelectChambreFroide";
 import ChartSpline from "./ChartSpline";
 import SelectOfficine from "../special-features/SelectOfficine";
@@ -35,6 +35,7 @@ function ChartsHome() {
   const [commentaire, setCommentaire] = useState("");
 
   const getDatas = () => {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
     axios
       .get(url.resultats)
       .then(function (response) {

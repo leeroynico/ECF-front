@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import LoginView from "./LoginView";
-import { url, axiosGet, roles } from "../axios";
+import { url, axiosGet, roles, jwt } from "../axios";
 const bcrypt = require("bcryptjs");
 function Login() {
   const [identifiant, setIdentifiant] = useState("");
@@ -12,7 +12,7 @@ function Login() {
   const officine = officines.filter(
     (item) => item.custom_identifiant === identifiant
   );
-  //ab1mjii288 (PHARMA - 62 -3)
+
   const connect = (e) => {
     e.preventDefault();
     if (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InputLabel, Select, FormControl, MenuItem } from "@mui/material";
-import { roles, url } from "../axios";
+import { roles, url, jwt } from "../axios";
 const axios = require("axios");
 
 function SelectTechnicien(props) {
@@ -9,6 +9,7 @@ function SelectTechnicien(props) {
 
   const getTechnicien = () => {
     try {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
       axios
         .get(url.utilisateurs)
         .then(function (response) {

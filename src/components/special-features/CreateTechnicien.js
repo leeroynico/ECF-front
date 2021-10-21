@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
-import { url, roles } from "../axios";
+import { url, roles, jwt } from "../axios";
 import { escapeHtml } from "../FonctionsRandomPassword";
 
 const axios = require("axios");
@@ -16,6 +16,7 @@ function CreateOfficine() {
 
   const create = () => {
     if (nom !== "" && prenom !== "" && password !== "") {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
       axios({
         method: "post",
         url: url.utilisateurs,

@@ -8,7 +8,7 @@ import {
   Alert,
 } from "@mui/material";
 import SelectTechnicien from "./SelectTechnicien";
-import { url, roles } from "../axios";
+import { url, roles, jwt } from "../axios";
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
@@ -26,6 +26,7 @@ function ModifyPassword() {
   const update = () => {
     if (password === passwordConfirm) {
       try {
+        axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
         axios
           .put(url.utilisateurs + "/" + technicien, {
             password: bcrypt.hashSync(password, salt),
