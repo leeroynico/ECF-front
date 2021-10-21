@@ -14,7 +14,7 @@ export const axiosGet = (url, setState) => {
   }
 };
 
-//const urlBase = "https://127.0.0.1:8000/api/";
+//const urlBase = "https://127.0.0.1:8000/api/"; à modifier selon vos paramètres en local
 const urlBase = "https://api-projet-ecf.herokuapp.com/api/";
 export const url = {
   chambreFroides: urlBase + "chambre_froides",

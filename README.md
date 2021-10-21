@@ -20,7 +20,7 @@ Ensuite, installer toutes les dépendances nécessaires au bon fonctionnement de
 
 - npm install
 
-Ce site va récupérer les données d'une API ( https://github.com/leeroynico/api-projet-ecf ). Soit vous laissez l'api pointé vers une bdd extérieur, mais vous pouvez aussi récupérer le projet backend de l'api, l'installer et gérer l'api en local. Il faudra alort modifier la ligne 17 du fichier src/components/axios.js pour y mettre l'adresse de l'API en local.
+Ce site va récupérer les données d'une API ( https://github.com/leeroynico/api-projet-ecf ). Soit vous laissez l'api pointer vers la bdd extérieur, soit vous récupérez le projet backend de l'api, vous l'installer et gérez l'api en local. Il faudra alors commenter la ligne 18 du fichier src/components/axios.js, décommenter la ligne 17 pour y mettre l'adresse de base de l'API en local. Si vous choisissez cette option, il faudra aussi récupérer un token (cf readme sur le github api) et le changer à la ligne 32-33 de ce même fichier axios.
 
 Vous pouvez ensuite lancer l'application avec :
 

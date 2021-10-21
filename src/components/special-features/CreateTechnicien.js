@@ -1,6 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { TextField, Grid, Typography, Button, Paper } from "@mui/material";
+import {
+  TextField,
+  Grid,
+  Typography,
+  Button,
+  Paper,
+  Alert,
+} from "@mui/material";
 import { url, roles, jwt } from "../axios";
 import { escapeHtml } from "../FonctionsRandomPassword";
 
@@ -13,6 +20,7 @@ function CreateOfficine() {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [password, setPassword] = useState("");
+  const [createDone, setDreateDone] = useState(false);
 
   const create = () => {
     if (nom !== "" && prenom !== "" && password !== "") {
@@ -27,10 +35,11 @@ function CreateOfficine() {
           role: roles.technicien,
         },
       })
-        .then((response) =>
-          console.log("create technicien response : ", response)
-        )
-        .catch((error) => console.log(error));
+        .then((response) => {
+          console.log("create technicien response : ", response);
+          setDreateDone(true);
+        })
+        .catch((error) => console.log("create technicien :", error));
     }
   };
 
@@ -63,6 +72,7 @@ function CreateOfficine() {
             <Typography variant="h5" sx={{ marginBottom: 1 }} align="center">
               crééer un technicien
             </Typography>
+            {createDone && <Alert severity="success">création effectuée</Alert>}
           </Grid>
           {inputMui("nom", setNom)}
           {inputMui("prenom", setPrenom)}
